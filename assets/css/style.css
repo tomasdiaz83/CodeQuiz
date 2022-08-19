@@ -2,18 +2,18 @@ div {
     border-style: solid;
 }
 
-#InstructionCard {
+#instructionCard {
     display:block;
 }
 
-#QuestionCard {
+#questionCard {
     display:none;
 }
 
-#SaveScoreCard {
+#saveScoreCard {
     display: none;;
 }
 
-#HighScoreCard {
+#highScoreCard {
     display: none;
 }

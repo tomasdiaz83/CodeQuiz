@@ -28,3 +28,13 @@
 // function storing wins
 // function storing losses
 // function storing intiials
+
+var startButton = document.querySelector(".start-button");
+var instructions = document.querySelector("#instructionCard");
+
+function startGame() {
+    instructions.style.display = "none";
+
+}
+
+startButton.addEventListener("click", startGame);
