@@ -30,27 +30,69 @@
 // function storing intiials
 
 // variables for selectors
-var startButton = document.querySelector(".start-button");
 var instructionCard = document.querySelector("#instructionCard");
 var questionCard = document.querySelector("#questionCard");
+var startButton = document.querySelector(".start-button");
 var timerEl = document.querySelector("#timer");
 
 // other variables
+var questionCount = 0;
 var timer;
-var timerCount
+var timerCount;
+var questions = [
+    {
+        question : "What term describes the relation of Jesus' humanity to His divinity in His person?",
+        answer : "The Hypostatic Union",
+        false1 : "The Homoiousion",
+        false2 : "The Divinic Humanity",
+        false3 : "The Person Theletism"
+    },
+    {
+        question : "What does it mean to say Mary is Immaculately Conceived?",
+        answer : "Mary is conceived without the stain of sin",
+        false1 : "Mary conceives by miraculous power the Son of God",
+        false2 : "Mary gives birth to Christ without any impurity",
+        false3 : "Mary conceives the idea of God without any admixture"
+    },
+    {
+        question : "Which short biography best describes the Father of Monks, Anthony the Great?",
+        answer : "Born in Egypt, began life as a hermit, fought with demons in the desert, ally of St. Athanaius against the Arians",
+        false1 : "Born in Italy, began life as a hermit, his sister called miraculous rain, written of by Gregory the Great",
+        false2 : "Born in Egypt, began life as a prostitute, converted by miraculous exclusion from the Church, was covered in a habit of hair,",
+        false3 : "Born in Italy, began life as a soldier, divested himself of all property, miraculously marked by the wounds of Christ"
+    },
+];
 
+// rest upon page load
 function init () {
     timerEl.textContent = "Time Left : " + 60;
+    questionCount = 0;
 }
 
-// Begins the timer and initiates the game over protocols
+// Function to make questions
+function makeQuestion() {
+    questionCount++;
+    questionCard.children[0].children[0].textContent = questionCount;
+    for (i = 1; i < 5; i++) {
+
+        // questionCard.children[x].textContent = ;
+    }
+}
+// Function to check answer chosen
+
+//function 
+
+// Begins the timer and initiates the game-over protocols
 function startTimer() {
     //sets timer
     timer = setInterval(function(){
         timerCount--;
         timerEl.textContent = "Time Left : " + timerCount;
+        if (timerCount <= 0) {
+            clearInterval(timer);
+            // gameOver();
+        }
     }, 1000);;
-
 }
 
 //Begins the game
@@ -62,6 +104,8 @@ function startGame() {
     //Begins the timer
     timerCount = 60;
     startTimer();
+    var gameQuestions = questions;
+    makeQuestion();
 }
 
 startButton.addEventListener("click", startGame);
