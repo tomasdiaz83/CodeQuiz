@@ -1,0 +1,19 @@
+div {
+    border-style: solid;
+}
+
+#InstructionCard {
+    display:block;
+}
+
+#QuestionCard {
+    display:none;
+}
+
+#SaveScoreCard {
+    display: none;;
+}
+
+#HighScoreCard {
+    display: none;
+}
