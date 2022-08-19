@@ -29,12 +29,41 @@
 // function storing losses
 // function storing intiials
 
+// variables for selectors
 var startButton = document.querySelector(".start-button");
-var instructions = document.querySelector("#instructionCard");
+var instructionCard = document.querySelector("#instructionCard");
+var questionCard = document.querySelector("#questionCard");
+var timerEl = document.querySelector("#timer");
 
-function startGame() {
-    instructions.style.display = "none";
+// other variables
+var timer;
+var timerCount
+
+function init () {
+    timerEl.textContent = "Time Left : " + 60;
+}
+
+// Begins the timer and initiates the game over protocols
+function startTimer() {
+    //sets timer
+    timer = setInterval(function(){
+        timerCount--;
+        timerEl.textContent = "Time Left : " + timerCount;
+    }, 1000);;
 
 }
 
+//Begins the game
+function startGame() {
+    //Hides instructionCard
+    instructionCard.style.display = "none";
+    //Displays the questionCard
+    questionCard.style.display = "block";
+    //Begins the timer
+    timerCount = 60;
+    startTimer();
+}
+
 startButton.addEventListener("click", startGame);
+
+init();
