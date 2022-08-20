@@ -34,6 +34,7 @@ var instructionCard = document.querySelector("#instructionCard");
 var questionCard = document.querySelector("#questionCard");
 var startButton = document.querySelector(".start-button");
 var timerEl = document.querySelector("#timer");
+var answerChoice = document.querySelectorAll("input");
 
 // other variables
 var questionCount = 0;
@@ -70,13 +71,24 @@ function init () {
 }
 
 // Function to make questions
-function makeQuestion() {
+function makeQuestion(x) {
+    //show question #
     questionCount++;
     questionCard.children[0].children[0].textContent = questionCount;
-    for (i = 1; i < 5; i++) {
+    //present random question
+    questionCard.children[1].textContent = x[Math.floor(Math.random()*x.length)].question;
 
-        // questionCard.children[x].textContent = ;
-    }
+    
+
+
+    // TODO: There's a problem in the for-loop, which is trying to get a random property (answer choice)
+    // for (i = 0; i < 4; i++) {
+    //     var randomProperty = function (displayedQuestion) {
+    //         var keys = Object.keys(displayedQuestion);
+    //         return displayedQuestion[keys[keys.length * Math.random() << 0]];
+    //     }
+    //     questionCard.children[2].children[i].value = randomProperty;
+    // }
 }
 // Function to check answer chosen
 
@@ -105,9 +117,10 @@ function startGame() {
     timerCount = 60;
     startTimer();
     var gameQuestions = questions;
-    makeQuestion();
+    makeQuestion(gameQuestions);
 }
 
 startButton.addEventListener("click", startGame);
+
 
 init();
