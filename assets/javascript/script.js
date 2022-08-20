@@ -63,32 +63,43 @@ var questions = [
         false3 : "Born in Italy, began life as a soldier, divested himself of all property, miraculously marked by the wounds of Christ"
     },
 ];
+var gameQuestions = [];
 
 // rest upon page load
 function init () {
     timerEl.textContent = "Time Left : " + 60;
     questionCount = 0;
+    gameQuestions = questions;
 }
 
 // Function to make questions
-function makeQuestion(x) {
+function makeQuestion() {
     //show question #
     questionCount++;
     questionCard.children[0].children[0].textContent = questionCount;
-    //present random question
-    questionCard.children[1].textContent = x[Math.floor(Math.random()*x.length)].question;
+    //select a random question
+    var randNum = Math.floor(Math.random()*gameQuestions.length);
+    var randQuestion = gameQuestions[randNum].question;
+    //present selected random question
+    questionCard.children[1].textContent = randQuestion;
 
+    //creating and filling array with corresponding answers
+    var ans = []
+    for (var x in gameQuestions[randNum]) {
+        ans.push(gameQuestions[randNum][x])
+    }
+    //removing first in the array (the question)
+    ans.splice(0,1);
     
+    //displaying answers in the buttons
+    for (i = 0; i < 4; i++) {
+        var rand = Math.floor(Math.random()*ans.length);
+        questionCard.children[2].children[i].value = ans[rand];
+        ans.splice(rand,1);
+    }
 
-
-    // TODO: There's a problem in the for-loop, which is trying to get a random property (answer choice)
-    // for (i = 0; i < 4; i++) {
-    //     var randomProperty = function (displayedQuestion) {
-    //         var keys = Object.keys(displayedQuestion);
-    //         return displayedQuestion[keys[keys.length * Math.random() << 0]];
-    //     }
-    //     questionCard.children[2].children[i].value = randomProperty;
-    // }
+    //delete selected random question from the array
+    gameQuestions.splice(randNum);
 }
 // Function to check answer chosen
 
@@ -116,8 +127,7 @@ function startGame() {
     //Begins the timer
     timerCount = 60;
     startTimer();
-    var gameQuestions = questions;
-    makeQuestion(gameQuestions);
+    makeQuestion();
 }
 
 startButton.addEventListener("click", startGame);
