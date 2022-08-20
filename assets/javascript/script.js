@@ -34,7 +34,7 @@ var instructionCard = document.querySelector("#instructionCard");
 var questionCard = document.querySelector("#questionCard");
 var startButton = document.querySelector(".start-button");
 var timerEl = document.querySelector("#timer");
-var answerChoice = document.querySelectorAll("input");
+var ansChoices = document.querySelectorAll(".answer-choices");
 
 // other variables
 var questionCount = 0;
@@ -65,12 +65,7 @@ var questions = [
 ];
 var gameQuestions = [];
 
-// rest upon page load
-function init () {
-    timerEl.textContent = "Time Left : " + 60;
-    questionCount = 0;
-    gameQuestions = questions;
-}
+//function 
 
 // Function to make questions
 function makeQuestion() {
@@ -91,19 +86,39 @@ function makeQuestion() {
     //removing first in the array (the question)
     ans.splice(0,1);
     
+    function ansCheck(event) {
+        console.log(x.value);
+        if (x.value === gameQuestions[randNum].answer) {
+            //TODO: We need some way of telling the user "Correct"
+            gameQuestions.splice(randNum,1);
+            if (gameQuestions.length > 0) {
+                x.removeEventListener("click", ansCheck);
+                makeQuestion();
+            }
+            else {
+                winGame();
+            }
+        } else {
+            x.style.backgroundcolor = "red";
+        }
+    }
+
     //displaying answers in the buttons
     for (i = 0; i < 4; i++) {
         var rand = Math.floor(Math.random()*ans.length);
         questionCard.children[2].children[i].value = ans[rand];
+        //add event listener which checks if answer is correct
+        questionCard.children[2].children[i].addEventListener("click", function(event) {
+            event.defaultPrevented();
+            var x = event.target;
+            ansCheck(x);
+        });
         ans.splice(rand,1);
     }
 
     //delete selected random question from the array
-    gameQuestions.splice(randNum);
+    
 }
-// Function to check answer chosen
-
-//function 
 
 // Begins the timer and initiates the game-over protocols
 function startTimer() {
@@ -132,5 +147,11 @@ function startGame() {
 
 startButton.addEventListener("click", startGame);
 
+// reset upon page load
+function init () {
+    timerEl.textContent = "Time Left : " + 60;
+    questionCount = 0;
+    gameQuestions = questions;
+}
 
 init();
