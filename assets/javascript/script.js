@@ -86,33 +86,30 @@ function makeQuestion() {
     //removing first in the array (the question)
     ans.splice(0,1);
     
-    function ansCheck(event) {
-        console.log(x.value);
-        if (x.value === gameQuestions[randNum].answer) {
+    //function to check answers
+    function ansCheck(e) {
+        e.removeEventListener("onclick", ansCheck);
+        console.log(e);
+        if (e.textContent === gameQuestions[randNum].answer) {
             //TODO: We need some way of telling the user "Correct"
             gameQuestions.splice(randNum,1);
             if (gameQuestions.length > 0) {
-                x.removeEventListener("click", ansCheck);
                 makeQuestion();
             }
             else {
                 winGame();
             }
         } else {
-            x.style.backgroundcolor = "red";
+            e.style.backgroundColor = "red";
         }
     }
 
     //displaying answers in the buttons
     for (i = 0; i < 4; i++) {
         var rand = Math.floor(Math.random()*ans.length);
-        questionCard.children[2].children[i].value = ans[rand];
+        questionCard.children[2].children[i].textContent = ans[rand];
         //add event listener which checks if answer is correct
-        questionCard.children[2].children[i].addEventListener("click", function(event) {
-            event.defaultPrevented();
-            var x = event.target;
-            ansCheck(x);
-        });
+        questionCard.children[2].children[i].addEventListener("click", ansCheck(questionCard.children[2].children[i]));
         ans.splice(rand,1);
     }
 
@@ -135,6 +132,7 @@ function startTimer() {
 
 //Begins the game
 function startGame() {
+    startButton.removeEventListener("click", startGame);
     //Hides instructionCard
     instructionCard.style.display = "none";
     //Displays the questionCard

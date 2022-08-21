@@ -10,6 +10,13 @@ div {
     display:none;
 }
 
+.answer-choices {
+    list-style-type: none;
+    border-style: solid;
+    height: 20px;
+    margin: 5px;
+}
+
 #saveScoreCard {
     display: none;;
 }
