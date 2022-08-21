@@ -1,39 +1,9 @@
-//click start button listener
-//timer starts 
-//prompts with questions
-//if answers = wrong then subtract timer
-//if answer = correct then continue prompts
-//if all questions completed && timer = 0 then end game
-//localStorage for the scores 
-//input for saving initials
-
-// var for all selectors - 
-
-// var time
-// var win
-// var loss
-// var button
-// etc.
-
-// button start
-
-// function starting timer
-// function winning
-// function loss
-// function initials
-// function showing all the quiz questions
-// function submit the input in the form for initials
-
-// //storing data
-// function storing wins
-// function storing losses
-// function storing intiials
-
-// variables for selectors
 var instructionCard = document.querySelector("#instructionCard");
 var questionCard = document.querySelector("#questionCard");
+var saveScoreCard = document.querySelector("#saveScoreCard");
 var startButton = document.querySelector(".start-button");
 var timerEl = document.querySelector("#timer");
+var scoreList = document.querySelector("#score-list");
 
 // other variables
 var questionCount = 0;
@@ -63,24 +33,51 @@ var questions = [
     },
 ];
 var gameQuestions = [];
+var scores = [];
 
-//function to remove buttons
-function removeButtons() {
-    questionCard.children[2].children[0].remove();
-    questionCard.children[2].children[0].remove();
-    questionCard.children[2].children[0].remove();
-    questionCard.children[2].children[0].remove();
-    return;
+function gameOver() {
+    gameOverCard.style.display = "none";
+    gameOverCard.children[2].children[0].textContent = questionCount;
+    gameOverCard.children[2].children[1].textContent = questions.length;
+}
+
+function storeScores() {
+    localStorage.setItem("storedScores", JSON.stringify(scores))
+}
+
+function renderScores() {
+    scoreList.textContent = "";
+
+    for (var i = 0; i < scores.length && i < 10; i++) {
+        var li = document.createElement("li");
+        li.textContent = scores[i].user + " : " + scores[i].score;
+
+        scoreList.appendChild(li);
+    }
 }
 
 function winGame() {
-    
+    clearInterval(timer);
+    questionCard.style.display= "none";
+    saveScoreCard.style.display= "block";
+    document.querySelector("#ScoreInput").addEventListener("submit", function(event) {
+        event.preventDefault();
+        var newUser = document.querySelector("#Score").value.trim();
+        var newScore = {
+            user : newUser,
+            score : timerCount
+        };
+        scores.push(newScore);
+        storeScores();
+        init();
+    })
 }
 
 // Function to make questions
 function makeQuestion() {
     if (gameQuestions[0] == undefined) {
         winGame();
+        return;
     }
     //show question #
     questionCount++;
@@ -117,7 +114,9 @@ function makeQuestion() {
                 timerCount -= 10;
             } else {
                 gameQuestions.splice(randNum,1);
-                removeButtons();
+                for (j = 0; j < 4; j++) {
+                    questionCard.children[2].children[0].remove();
+                }
                 makeQuestion();
             }
         });
@@ -133,18 +132,19 @@ function startTimer() {
         timerEl.textContent = "Time Left : " + timerCount;
         if (timerCount <= 0) {
             clearInterval(timer);
-            // gameOver();
+            gameOver();
         }
     }, 1000);;
 }
 
 //Begins the game
 function startGame() {
-    startButton.removeEventListener("click", startGame);
     //Hides instructionCard
     instructionCard.style.display = "none";
     //Displays the questionCard
     questionCard.style.display = "block";
+    highScoreCard.style.display = "none";
+    saveScoreCard.style.display = "none";
     //Begins the timer
     timerCount = 60;
     startTimer();
@@ -155,9 +155,21 @@ startButton.addEventListener("click", startGame);
 
 // reset upon page load
 function init () {
+    instructionCard.style.display = "block";
+    questionCard.style.display = "none";
+    saveScoreCard.style.display = "none";
+    highScoreCard.style.display = "block";
+    
+    //setting the timer
     timerEl.textContent = "Time Left : " + 60;
     questionCount = 0;
-    gameQuestions = questions;
+    Object.assign(gameQuestions, questions);
+
+    var storedScores = JSON.parse(localStorage.getItem("storedScores"));
+    if (storedScores !== null) {
+        scores = storedScores;
+    }
+    renderScores();
 }
 
 init();
