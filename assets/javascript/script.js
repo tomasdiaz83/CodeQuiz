@@ -34,7 +34,6 @@ var instructionCard = document.querySelector("#instructionCard");
 var questionCard = document.querySelector("#questionCard");
 var startButton = document.querySelector(".start-button");
 var timerEl = document.querySelector("#timer");
-var ansChoices = document.querySelectorAll(".answer-choices");
 
 // other variables
 var questionCount = 0;
@@ -65,10 +64,24 @@ var questions = [
 ];
 var gameQuestions = [];
 
-//function 
+//function to remove buttons
+function removeButtons() {
+    questionCard.children[2].children[0].remove();
+    questionCard.children[2].children[0].remove();
+    questionCard.children[2].children[0].remove();
+    questionCard.children[2].children[0].remove();
+    return;
+}
+
+function winGame() {
+    
+}
 
 // Function to make questions
 function makeQuestion() {
+    if (gameQuestions[0] == undefined) {
+        winGame();
+    }
     //show question #
     questionCount++;
     questionCard.children[0].children[0].textContent = questionCount;
@@ -85,36 +98,31 @@ function makeQuestion() {
     }
     //removing first in the array (the question)
     ans.splice(0,1);
-    
-    //function to check answers
-    function ansCheck(e) {
-        e.removeEventListener("onclick", ansCheck);
-        console.log(e);
-        if (e.textContent === gameQuestions[randNum].answer) {
-            //TODO: We need some way of telling the user "Correct"
-            gameQuestions.splice(randNum,1);
-            if (gameQuestions.length > 0) {
-                makeQuestion();
-            }
-            else {
-                winGame();
-            }
-        } else {
-            e.style.backgroundColor = "red";
-        }
-    }
 
     //displaying answers in the buttons
     for (i = 0; i < 4; i++) {
+        //creating a button
+        var button = document.createElement("button");
+        questionCard.children[2].appendChild(button);
+        
+        //displaying random answer in the button
         var rand = Math.floor(Math.random()*ans.length);
         questionCard.children[2].children[i].textContent = ans[rand];
+        
         //add event listener which checks if answer is correct
-        questionCard.children[2].children[i].addEventListener("click", ansCheck(questionCard.children[2].children[i]));
+        questionCard.children[2].children[i].addEventListener("click", function(event) {
+            event.stopPropagation();
+            if (event.target.textContent !== gameQuestions[randNum].answer) {
+                event.target.style.backgroundColor = "red";
+                timerCount -= 10;
+            } else {
+                gameQuestions.splice(randNum,1);
+                removeButtons();
+                makeQuestion();
+            }
+        });
         ans.splice(rand,1);
-    }
-
-    //delete selected random question from the array
-    
+    }    
 }
 
 // Begins the timer and initiates the game-over protocols
