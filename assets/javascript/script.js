@@ -34,11 +34,18 @@ var questions = [
 ];
 var gameQuestions = [];
 var scores = [];
+var scored = false;
 
 function gameOver() {
-    gameOverCard.style.display = "none";
-    gameOverCard.children[2].children[0].textContent = questionCount;
-    gameOverCard.children[2].children[1].textContent = questions.length;
+    timerEl.textContent = 0
+    gameOverCard.style.display = "block";
+    questionCard.style.display = "none";
+    gameOverCard.children[1].children[0].textContent = questionCount - 1;
+    gameOverCard.children[1].children[1].textContent = questions.length;
+    for (j = 0; j < 4; j++) {
+        questionCard.children[2].children[0].remove();
+    }
+    gameOverCard.children[2].addEventListener("click", init);
 }
 
 function storeScores() {
@@ -56,21 +63,24 @@ function renderScores() {
     }
 }
 
+function acceptScore() {
+    scored = true;
+    var newUser = document.querySelector("#Score").value.trim();
+    var newScore = {
+        user : newUser,
+        score : timerCount
+    };
+    scores.push(newScore);
+    storeScores();
+    init();
+}
+
 function winGame() {
     clearInterval(timer);
     questionCard.style.display= "none";
     saveScoreCard.style.display= "block";
-    document.querySelector("#ScoreInput").addEventListener("submit", function(event) {
-        event.preventDefault();
-        var newUser = document.querySelector("#Score").value.trim();
-        var newScore = {
-            user : newUser,
-            score : timerCount
-        };
-        scores.push(newScore);
-        storeScores();
-        init();
-    })
+
+    document.querySelector("#ScoreInput").addEventListener("submit", acceptScore)
 }
 
 // Function to make questions
@@ -146,7 +156,8 @@ function startGame() {
     highScoreCard.style.display = "none";
     saveScoreCard.style.display = "none";
     //Begins the timer
-    timerCount = 60;
+    timerCount = questions.length * 15;
+    timerEl.textContent = "Time Left : " + timerCount;
     startTimer();
     makeQuestion();
 }
@@ -159,9 +170,15 @@ function init () {
     questionCard.style.display = "none";
     saveScoreCard.style.display = "none";
     highScoreCard.style.display = "block";
+    gameOverCard.style.display = "none";
+
+    if(scored = true) {
+        document.querySelector("#ScoreInput").removeEventListener("submit", acceptScore);
+        scored = false;
+    }
     
     //setting the timer
-    timerEl.textContent = "Time Left : " + 60;
+    timerEl.textContent = "Time Left : ";
     questionCount = 0;
     Object.assign(gameQuestions, questions);
 
