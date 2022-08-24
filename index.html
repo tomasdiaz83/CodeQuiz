@@ -8,13 +8,14 @@
         <title>Quiz Game</title>
     </head>
     <body>
-        <h1>Quiz Game</h1>
-        <div id = timer>TIME: </div>
+        <h1 id = "title">Quiz Game</h1>
+        <h2 id = "subtitle">Undergrad Theology Edition</h2>
+        <div id = "timer">TIME: </div>
         <div id = "instructionCard">
             <h2>Instructions</h2>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa beatae vitae perspiciatis commodi accusantium error, eum eos, maxime qui, ea veritatis ad perferendis numquam molestiae labore dignissimos laborum soluta praesentium.</p>
+            <p>You will have <span id = timeToComplete></span> seconds to complete this quiz. Your time lift determines your score. You will lose 10 seconds for each incorrect answer.</p>
             <div class = "start-button">
-                <h3>Start Game</h3>
+                <p>Start Game</p>
             </div>
         </div>
         <div id = "questionCard">
@@ -41,6 +42,7 @@
             <p>You answered <span></span>/<span></span> questions.</p>
             <button>Play Again?</button>
         </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
         <script src="./assets/javascript/script.js"></script>
     </body>
 </html>

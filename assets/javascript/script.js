@@ -1,3 +1,9 @@
+//jquery "styling"
+$("body").children().css("background-color", "#eaeaea").css("padding", "5px 15px").css("margin-top", "10px").css("margin-bottom", "10px");
+$("#title").css("background-color", "#454851");
+$("#subtitle").css("background-color", "#454851");
+
+
 var instructionCard = document.querySelector("#instructionCard");
 var questionCard = document.querySelector("#questionCard");
 var saveScoreCard = document.querySelector("#saveScoreCard");
@@ -57,7 +63,7 @@ function renderScores() {
 
     for (var i = 0; i < scores.length && i < 10; i++) {
         var li = document.createElement("li");
-        li.textContent = scores[i].user + " : " + scores[i].score;
+        li.textContent = scores[i].user + " : Finished with " + scores[i].score + " seconds left";
 
         scoreList.appendChild(li);
     }
@@ -110,6 +116,7 @@ function makeQuestion() {
     for (i = 0; i < 4; i++) {
         //creating a button
         var button = document.createElement("button");
+        button.classList.add("ans-button");
         questionCard.children[2].appendChild(button);
         
         //displaying random answer in the button
@@ -121,6 +128,7 @@ function makeQuestion() {
             event.stopPropagation();
             if (event.target.textContent !== gameQuestions[randNum].answer) {
                 event.target.style.backgroundColor = "red";
+                event.target.style.color = "red";
                 timerCount -= 10;
             } else {
                 gameQuestions.splice(randNum,1);
@@ -156,7 +164,7 @@ function startGame() {
     highScoreCard.style.display = "none";
     saveScoreCard.style.display = "none";
     //Begins the timer
-    timerCount = questions.length * 15;
+    timerCount = questions.length * 20;
     timerEl.textContent = "Time Left : " + timerCount;
     startTimer();
     makeQuestion();
@@ -171,6 +179,7 @@ function init () {
     saveScoreCard.style.display = "none";
     highScoreCard.style.display = "block";
     gameOverCard.style.display = "none";
+    document.querySelector("#timeToComplete").textContent = questions.length * 20;
 
     if(scored = true) {
         document.querySelector("#ScoreInput").removeEventListener("submit", acceptScore);
@@ -178,7 +187,7 @@ function init () {
     }
     
     //setting the timer
-    timerEl.textContent = "Time Left : ";
+    timerEl.textContent = "Time Left : 00";
     questionCount = 0;
     Object.assign(gameQuestions, questions);
 
@@ -190,3 +199,4 @@ function init () {
 }
 
 init();
+

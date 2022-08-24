@@ -1,26 +1,82 @@
-div {
-    border-style: solid;
+/* Color variables */
+:root {
+    --primary: #454851;
+    --secondary: #eaeaea;
+    --text: #e55934;
 }
 
-#instructionCard {
-    display:block;
+/* Ensures navigation links don't send beginning of linked content behind header */
+html {
+    scroll-padding-top: 100px;
 }
 
-#questionCard {
-    display:none;
+/* Setting basic and inheritable body stylings */
+body {
+    font-family:Arial, Helvetica, sans-serif;
+    position:relative;
+    background-color: var(--primary);
+    color: var(--text);
+    margin: 0;
 }
 
-.answer-choices {
+h2 {
+    text-align: center;
+}
+
+#timer {
+    margin: auto;
+    max-width: 40%;
+    text-align: center;
+    font-size: 50px;
+}
+
+#instructionCard, #questionCard, #saveScoreCard, #highScoreCard, #gameOverCard {
+    display:flex;
+    flex-direction: column;
+    margin: auto;
+    max-width: 40%;
+}
+
+#answers {
+    display:flex;
+    flex-direction: column;
     list-style-type: none;
-    border-style: solid;
-    height: 20px;
     margin: 5px;
 }
 
-#saveScoreCard {
-    display: none;;
+#title {
+    text-align: center;
 }
 
-#highScoreCard {
-    display: block;
+#subtitle {
+    text-align: center;
+}
+
+.start-button {
+    background-color: var(--primary);
+    border: var(--primary);
+    border-style: solid;
+    width: fit-content;
+    font-size: x-large;
+    font-weight: bold;
+    padding: 0px 10px;
+    margin:auto;
+    cursor:pointer;
+}
+
+.ans-button {
+    background-color: var(--primary);
+    border: none;
+    color: var(--text);
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+#score-list {
+    list-style: none;
 }
