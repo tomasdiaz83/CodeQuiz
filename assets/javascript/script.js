@@ -3,7 +3,7 @@ $("body").children().css("background-color", "#eaeaea").css("padding", "5px 15px
 $("#title").css("background-color", "#454851");
 $("#subtitle").css("background-color", "#454851");
 
-
+//selectors
 var instructionCard = document.querySelector("#instructionCard");
 var questionCard = document.querySelector("#questionCard");
 var saveScoreCard = document.querySelector("#saveScoreCard");
@@ -34,14 +34,31 @@ var questions = [
         question : "Which short biography best describes the Father of Monks, Anthony the Great?",
         answer : "Born in Egypt, began life as a hermit, fought with demons in the desert, ally of St. Athanaius against the Arians",
         false1 : "Born in Italy, began life as a hermit, his sister called miraculous rain, written of by Gregory the Great",
-        false2 : "Born in Egypt, began life as a prostitute, converted by miraculous exclusion from the Church, was covered in a habit of hair,",
+        false2 : "Born in Egypt, began life as a prostitute, converted by miraculous exclusion from the Church, was covered in a habit of hair",
         false3 : "Born in Italy, began life as a soldier, divested himself of all property, miraculously marked by the wounds of Christ"
     },
+    {
+        question : "What is contemplative prayer?",
+        answer : "The interior act by which man is set wholly to gaze upon the Lord and live from that gaze",
+        false1 : "The interior act by which man orders his inner life so as to achieve perfect harmony",
+        false2 : "The exterior act by which man gives praise and adoration to the source of creation",
+        false3 : "The exterior act by which man reflects upon his inner life and make repentance"
+    },
+    {
+        question : "Which best describes Pascal's Wager, concerning the agnostic?",
+        answer : "If God does not exist, there is no gain and no loss; if God exists, there is gain for living well, or eternal loss for sin. Thus bet on God and live well.",
+        false1 : "If God does exist, one's life is but the toss of a coin between going to hell or going to heaven. Thus enjoy life, by virtue or by vice.",
+        false2 : "If God does not exist, the afterlife must surely be hell; if God does exist, there is only half a chance of hell. So most every bet is hell.",
+        false3 : "If God does exist, he would surely keep one from eternal hell. So live your life as you wish, and be assured of heavenly reward."
+    }
 ];
+
+//other variables
 var gameQuestions = [];
 var scores = [];
 var scored = false;
 
+//Upon losing the game, set timer to zero (in case it went negative), remove all answers from question card, give your score, and ask to play again
 function gameOver() {
     timerEl.textContent = 0
     gameOverCard.style.display = "block";
@@ -54,10 +71,12 @@ function gameOver() {
     gameOverCard.children[2].addEventListener("click", init);
 }
 
+//storing scores locally
 function storeScores() {
     localStorage.setItem("storedScores", JSON.stringify(scores))
 }
 
+//making the high score list, listing only up to 10 players
 function renderScores() {
     scoreList.textContent = "";
 
@@ -69,6 +88,7 @@ function renderScores() {
     }
 }
 
+//Putting name and score into an object, then storing and reinitializing the game
 function acceptScore() {
     scored = true;
     var newUser = document.querySelector("#Score").value.trim();
@@ -81,6 +101,7 @@ function acceptScore() {
     init();
 }
 
+//win status, halting the timer and putting a listener on to the score input field
 function winGame() {
     clearInterval(timer);
     questionCard.style.display= "none";
@@ -89,7 +110,7 @@ function winGame() {
     document.querySelector("#ScoreInput").addEventListener("submit", acceptScore)
 }
 
-// Function to make questions
+// Function to make questions, selected randomly
 function makeQuestion() {
     if (gameQuestions[0] == undefined) {
         winGame();
@@ -109,6 +130,7 @@ function makeQuestion() {
     for (var x in gameQuestions[randNum]) {
         ans.push(gameQuestions[randNum][x])
     }
+    
     //removing first in the array (the question)
     ans.splice(0,1);
 
@@ -138,6 +160,8 @@ function makeQuestion() {
                 makeQuestion();
             }
         });
+
+        //removing answer from the array
         ans.splice(rand,1);
     }    
 }
@@ -170,6 +194,7 @@ function startGame() {
     makeQuestion();
 }
 
+//To begin the game
 startButton.addEventListener("click", startGame);
 
 // reset upon page load
@@ -181,6 +206,7 @@ function init () {
     gameOverCard.style.display = "none";
     document.querySelector("#timeToComplete").textContent = questions.length * 20;
 
+    //Removing "used" listeners to ensure they are not piled one on top of another
     if(scored = true) {
         document.querySelector("#ScoreInput").removeEventListener("submit", acceptScore);
         scored = false;
@@ -199,4 +225,3 @@ function init () {
 }
 
 init();
-

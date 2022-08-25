@@ -23,6 +23,45 @@ h2 {
     text-align: center;
 }
 
+.start-button {
+    background-color: var(--primary);
+    border: var(--primary);
+    border-style: solid;
+    width: fit-content;
+    font-size: x-large;
+    font-weight: bold;
+    padding: 0px 10px;
+    margin:auto;
+    cursor:pointer;
+}
+
+.play-again-button {
+    background-color: var(--primary);
+    border: none;
+    color: var(--text);
+    padding: 15px 32px;
+    width: fit-content;
+    text-align: center;
+    text-decoration: none;
+    font-size: x-large;
+    font-weight: bold;
+    margin: auto;
+    cursor: pointer;
+}
+
+.ans-button {
+    background-color: var(--primary);
+    border: none;
+    color: var(--text);
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
 #timer {
     margin: auto;
     max-width: 40%;
@@ -52,31 +91,25 @@ h2 {
     text-align: center;
 }
 
-.start-button {
-    background-color: var(--primary);
-    border: var(--primary);
-    border-style: solid;
-    width: fit-content;
-    font-size: x-large;
-    font-weight: bold;
-    padding: 0px 10px;
-    margin:auto;
-    cursor:pointer;
-}
-
-.ans-button {
-    background-color: var(--primary);
-    border: none;
-    color: var(--text);
-    padding: 15px 32px;
+#gameOverCard p {
     text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
 }
 
 #score-list {
     list-style: none;
+}
+
+#ScoreInput {
+    display: flex;
+    flex-direction: column;
+    font-size: larger;
+    font-weight: bold;
+    align-items: center;
+}
+
+#highScoreCard ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 5px;
 }
